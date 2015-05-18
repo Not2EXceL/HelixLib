@@ -31,7 +31,7 @@
                             <mainClass>io.not2excel.Main</mainClass>
                         </manifest>
                         <manifestEntries>
-                            <mode>development</mode>
+                            <gmode>development</gmode>
                             <url>${project.url}</url>
                             <key>value</key>
                         </manifestEntries>
