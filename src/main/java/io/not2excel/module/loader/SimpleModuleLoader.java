@@ -8,7 +8,7 @@
  */
 package io.not2excel.module.loader;
 
-import io.not2excel.module.ModuleCoordinator;
+import io.not2excel.module.coordinator.ModuleCoordinator;
 import io.not2excel.module.context.Module;
 
 public class SimpleModuleLoader<M extends Module> implements ModuleLoader<M> {

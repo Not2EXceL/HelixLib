@@ -6,7 +6,7 @@
  * server-core can not be copied and/or distributed without the express
  * permission of the aforementioned owner.
  */
-package io.not2excel.event;
+package io.not2excel.event.coordinator;
 
 import io.not2excel.event.annotation.EventSubscribe;
 import io.not2excel.event.context.EventContext;

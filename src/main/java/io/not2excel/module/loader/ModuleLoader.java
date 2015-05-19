@@ -8,7 +8,7 @@
  */
 package io.not2excel.module.loader;
 
-import io.not2excel.module.ModuleCoordinator;
+import io.not2excel.module.coordinator.ModuleCoordinator;
 import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
 import io.not2excel.module.context.Module;

@@ -6,7 +6,7 @@
  * module-api can not be copied and/or distributed without the express
  * permission of the aforementioned owner.
  */
-package io.not2excel.module;
+package io.not2excel.module.coordinator;
 
 import io.not2excel.module.annotation.ModuleInfo;
 import io.not2excel.module.context.Module;
