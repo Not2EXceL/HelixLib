@@ -16,6 +16,9 @@ import io.not2excel.module.exception.ModuleEnableException;
 import io.not2excel.module.exception.ModuleLoadException;
 import io.not2excel.module.exception.ModuleUnLoadException;
 import io.not2excel.util.Reflections;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordinator<M> {
 
+    private final Logger logger = LogManager.getLogger(SimpleModuleCoordinator.class.getSimpleName());
     private Class<M> baseModuleClass;
     private Map<String, M> moduleMap;
 
@@ -34,6 +38,7 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
     @Override
     public M instantiate(Class<M> moduleClass) {
         if (Reflections.hasAnnotation(moduleClass, AbstractModule.class)) {
+            logger.log(Level.INFO, String.format("Skipping instantiation of abstract module %s", moduleClass.getSimpleName()));
             return null;
         }
         try {
@@ -47,6 +52,7 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
     @Override
     public void load(M module) throws ModuleLoadException {
         if (Reflections.hasAnnotation(module.getClass(), AbstractModule.class)) {
+            logger.log(Level.INFO, String.format("Cannot load abstract module %s", module.getClass().getSimpleName()));
             return;
         }
         if (!this.hasModule(module.getClass())) {

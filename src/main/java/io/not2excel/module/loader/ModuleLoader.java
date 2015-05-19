@@ -9,6 +9,7 @@
 package io.not2excel.module.loader;
 
 import io.not2excel.module.ModuleCoordinator;
+import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
 import io.not2excel.module.context.Module;
 import io.not2excel.module.exception.ModuleLoadException;
@@ -23,6 +24,9 @@ public interface ModuleLoader<M extends Module> {
     
     default void loadModules(List<Class<M>> moduleList) {
         moduleList.forEach(c -> {
+            if(Reflections.hasAnnotation(c, AbstractModule.class)) {
+                return;
+            }
             ModuleCoordinator<M> moduleCoordinator = this.getRelativeCoordinator();
             try {
                 moduleCoordinator.load(c);
