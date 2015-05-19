@@ -22,9 +22,20 @@ public final class Reflections {
      * @throws RuntimeException if annotation is not present
      */
     public static <T extends Annotation> T getAnnotation(Class<?> clazz, Class<T> annotation) {
-        if (!clazz.isAnnotationPresent(annotation)) {
+        if (!hasAnnotation(clazz, annotation)) {
             throw new RuntimeException(annotation.getSimpleName() + " is not present on target " + clazz.getSimpleName());
         }
         return clazz.getAnnotation(annotation);
+    }
+
+    /**
+     * Wrapper method for checking if an annotation is present on a class
+     *
+     * @param clazz      target
+     * @param annotation annotation class
+     * @return is present of not
+     */
+    public static boolean hasAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
+        return clazz.isAnnotationPresent(annotation);
     }
 }

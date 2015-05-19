@@ -8,12 +8,14 @@
  */
 package io.not2excel.module;
 
+import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
 import io.not2excel.module.context.Module;
 import io.not2excel.module.exception.ModuleDisableException;
 import io.not2excel.module.exception.ModuleEnableException;
 import io.not2excel.module.exception.ModuleLoadException;
 import io.not2excel.module.exception.ModuleUnLoadException;
+import io.not2excel.util.Reflections;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,9 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public M instantiate(Class<M> moduleClass) {
+        if (Reflections.hasAnnotation(moduleClass, AbstractModule.class)) {
+            return null;
+        }
         try {
             return moduleClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -41,12 +46,14 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public void load(M module) throws ModuleLoadException {
+        if (Reflections.hasAnnotation(module.getClass(), AbstractModule.class)) {
+            return;
+        }
         if (!this.hasModule(module.getClass())) {
             ModuleInfo info = this.getModuleInfo(module);
             this.moduleMap.put(info.id(), module);
             module.onLoad();
-        }
-        else {
+        } else {
             throw new ModuleLoadException("Module " + module.getClass().getSimpleName() + " already loaded.");
         }
     }
@@ -72,8 +79,7 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
         if (this.hasModule(module.getClass())) {
             ModuleInfo info = this.getModuleInfo(module);
             this.unload(info.id());
-        }
-        else {
+        } else {
             throw new ModuleUnLoadException("Module " + module.getClass().getSimpleName() + " not loaded.");
         }
     }
@@ -97,19 +103,18 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public void unload(String id) throws ModuleUnLoadException {
-        if(this.moduleMap.containsKey(id)) {
+        if (this.moduleMap.containsKey(id)) {
             M module = this.moduleMap.get(id);
             module.onUnload();
             this.moduleMap.remove(id);
-        }
-        else {
+        } else {
             throw new ModuleUnLoadException("Module " + id + " not loaded.");
         }
     }
 
     @Override
     public void enable(String id) throws ModuleEnableException {
-        if(this.moduleMap.containsKey(id)) {
+        if (this.moduleMap.containsKey(id)) {
             M module = this.moduleMap.get(id);
             module.onEnable();
         } else {
@@ -119,7 +124,7 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public void enable(String... idList) {
-        for(String id : idList) {
+        for (String id : idList) {
             try {
                 this.enable(id);
             } catch (ModuleEnableException e) {
@@ -130,7 +135,7 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public void enable(M module) throws ModuleEnableException {
-        if(this.hasModule(module.getClass())) {
+        if (this.hasModule(module.getClass())) {
             module.onEnable();
         } else {
             throw new ModuleEnableException("Module " + module.getClass().getSimpleName() + " not loaded.");
@@ -150,17 +155,17 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public void disable(String id) throws ModuleDisableException {
-        if(this.moduleMap.containsKey(id)) {
+        if (this.moduleMap.containsKey(id)) {
             M module = this.moduleMap.get(id);
             module.onDisable();
         } else {
-            throw new ModuleDisableException("Module " + id+ " not loaded.");
+            throw new ModuleDisableException("Module " + id + " not loaded.");
         }
     }
 
     @Override
     public void disable(String... idList) {
-        for(String id : idList) {
+        for (String id : idList) {
             try {
                 this.disable(id);
             } catch (ModuleDisableException e) {
@@ -171,7 +176,7 @@ public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordina
 
     @Override
     public void disable(M module) throws ModuleDisableException {
-        if(this.hasModule(module.getClass())) {
+        if (this.hasModule(module.getClass())) {
             module.onEnable();
         } else {
             throw new ModuleDisableException("Module " + module.getClass().getSimpleName() + " not loaded.");
