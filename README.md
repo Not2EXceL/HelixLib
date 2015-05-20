@@ -3,9 +3,27 @@
 This library is a compilation of  utilities and frameworks to be used in mainly Minecraft related plugins, however, there'll most likely be a non-Minecraft related branch as well.
 
 ##Authors
-- Richmond Steele aka Not2EXceL, nasm
-- Carter Gale aka Ktar5
-- Stilldabomb
+- Richmond "Not2EXceL, nasm" Steele
+- Carter "Ktar" Gale
+- Jeremy "Stilldabomb" Saeger
+
+##Importing it into your project
+We only support Apache Maven projects, so if you have problems importing it some other way, ask someone else.
+First you want to add the repository to your pom.xml:
+```
+<repository>
+  <id>HelixDev Repo</id>
+  <url>http://ci.stll.pw/plugin/repository/everything/</url>
+</repository>
+```
+Then you want to add the dependency:
+```
+<dependency>
+  <groupId>io.not2excel</groupId>
+  <artifactId>helixlib</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
+```
 
 ###Event System - Not2EXceL
 This event system is designed for ease of triggering events and dispatching to a set of prioritized subscribers.  
