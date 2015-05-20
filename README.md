@@ -4,7 +4,7 @@ This library is a compilation of  utilities and frameworks to be used in mainly 
 
 ##Authors
 - Richmond Steele aka Not2EXceL, nasm
-- Carter aka ktar5
+- Carter Gale aka Ktar5
 - Stilldabomb
 
 ###Event System - Not2EXceL
@@ -20,3 +20,6 @@ This allows modularity support throughout the application.  Currently the simple
 This class is of special importance in the module system.  However, its functionality is not limited to that.
 Contains a series of utility methods to load and map classes from internal jars and/or external directories.
 Loaded classes are mapped as such: package name -> a collection object housing classes
+
+###Minecraft Utilities Branch - Ktar5
+This array of utilities is directly for interfacing with Minecraft. It's functions help tremendously when going through simple, but annoyingly repetetive tasks such as commands. As well, it contains a load of less-used functions that are little hacks through the Minecraft code that are there for reference when needed, as to avoid recoding the systems.
