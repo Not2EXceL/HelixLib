@@ -19,12 +19,21 @@ import lombok.Getter;
 public class CoreModule<P extends CorePlugin> implements Module {
 
     @Getter
-    private P owner;
+    private final P owner;
     private CoreMetadata<P, Object> metadata;
+    @Getter
+    private ModuleInfo moduleInfo = null;
+
+    public CoreModule(ModuleInfo moduleInfo, P owner) {
+        this(owner);
+        this.moduleInfo = moduleInfo;
+    }
 
     public CoreModule(P owner) {
         this.owner = owner;
     }
+
+    //region <Inherited methods if use case is required>
 
     @Override
     public void onLoad() {
@@ -45,6 +54,8 @@ public class CoreModule<P extends CorePlugin> implements Module {
     public void onDisable() {
 
     }
+
+    //endregion
 
     /**
      * True if metadata has been instantiated
