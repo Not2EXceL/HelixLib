@@ -8,6 +8,8 @@
  */
 package io.not2excel.module.context;
 
+import io.not2excel.annotation.NonThreadSafe;
+import io.not2excel.annotation.ThreadSafe;
 import io.not2excel.metadata.CoreMetadata;
 import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
@@ -63,6 +65,7 @@ public class CoreModule<P extends CorePlugin> implements Module {
      *
      * @return metadata exists or not
      */
+    @NonThreadSafe
     public boolean hasMetadata() {
         return metadata != null;
     }
@@ -74,6 +77,7 @@ public class CoreModule<P extends CorePlugin> implements Module {
      * @return metadata
      * @since 0.1.0
      */
+    @ThreadSafe
     public CoreMetadata getMetadata() {
         if (metadata == null) {
             synchronized (this) {
