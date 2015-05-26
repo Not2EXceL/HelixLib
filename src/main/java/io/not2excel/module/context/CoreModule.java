@@ -59,6 +59,7 @@ public class CoreModule<P extends CorePlugin> implements Module {
 
     /**
      * True if metadata has been instantiated
+     * Non-Thread safe check
      *
      * @return metadata exists or not
      */
