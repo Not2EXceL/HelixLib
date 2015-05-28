@@ -6,8 +6,9 @@
  * helixlib can not be copied and/or distributed without the express
  * permission of the aforementioned owner.
  */
-package io.not2excel.plugin;
+package io.not2excel.spigot.plugin;
 
+import io.not2excel.plugin.CorePlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CoreSpigotPlugin extends JavaPlugin implements CorePlugin {
