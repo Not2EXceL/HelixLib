@@ -12,7 +12,6 @@ import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
 import io.not2excel.module.context.CoreModule;
 import io.not2excel.module.exception.ModuleLoadException;
-import io.not2excel.plugin.CorePlugin;
 import io.not2excel.util.Reflections;
 import lombok.Getter;
 import org.apache.logging.log4j.Level;
@@ -23,25 +22,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CoreModuleCoordinator<P extends CorePlugin> extends SimpleModuleCoordinator<CoreModule> {
+public class CoreModuleCoordinator<P> extends SimpleModuleCoordinator<CoreModule> {
 
     @Getter
     private final List<String> excludes;
     @Getter
-    private final P corePlugin;
+    private final P p;
 
-    public CoreModuleCoordinator(P corePlugin, List<String> excludes) {
+    public CoreModuleCoordinator(P p, List<String> excludes) {
         super(CoreModule.class);
-        this.corePlugin = corePlugin;
+        this.p = p;
         this.excludes = excludes;
     }
-    
-    public CoreModuleCoordinator(P corePlugin) {
-        this(corePlugin, Collections.emptyList());
+
+    public CoreModuleCoordinator(P p) {
+        this(p, Collections.emptyList());
     }
-    
-    public CoreModuleCoordinator(P corePlugin, String... excludes) {
-        this(corePlugin, Arrays.asList(excludes));
+
+    public CoreModuleCoordinator(P p, String... excludes) {
+        this(p, Arrays.asList(excludes));
     }
 
     @Override
@@ -52,9 +51,9 @@ public class CoreModuleCoordinator<P extends CorePlugin> extends SimpleModuleCoo
         }
         try {
             ModuleInfo moduleInfo = super.getModuleInfo(moduleClass);
-            Constructor<?> constructor = moduleClass.getDeclaredConstructor(ModuleInfo.class, corePlugin.getClass());
+            Constructor<CoreModule> constructor = moduleClass.getDeclaredConstructor(ModuleInfo.class, p.getClass());
             constructor.setAccessible(true);
-            return (CoreModule) constructor.newInstance(moduleInfo, corePlugin);
+            return constructor.newInstance(moduleInfo, p);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -63,7 +62,10 @@ public class CoreModuleCoordinator<P extends CorePlugin> extends SimpleModuleCoo
 
     @Override
     public void load(CoreModule module) throws ModuleLoadException {
-        ModuleInfo info = module.getModuleInfo();
+        if(!p.equals(module.getOwner())) {
+            throw new IllegalArgumentException(module.getInfo().id() + " is not of same generic typing.");
+        }
+        ModuleInfo info = module.getInfo();
         if(info == null) {
             info = super.getModuleInfo(module.getClass());
         }

@@ -13,22 +13,21 @@ import io.not2excel.annotation.ThreadSafe;
 import io.not2excel.metadata.CoreMetadata;
 import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
-import io.not2excel.plugin.CorePlugin;
 import lombok.Getter;
 
 @AbstractModule
 @ModuleInfo(id = "core", name = "Core Module")
-public class CoreModule<P extends CorePlugin> implements Module {
+public class CoreModule<P> implements Module {
 
     @Getter
     private final P owner;
     private CoreMetadata<P, Object> metadata;
     @Getter
-    private ModuleInfo moduleInfo = null;
+    private ModuleInfo info = null;
 
-    public CoreModule(ModuleInfo moduleInfo, P owner) {
+    public CoreModule(ModuleInfo info, P owner) {
         this(owner);
-        this.moduleInfo = moduleInfo;
+        this.info = info;
     }
 
     public CoreModule(P owner) {

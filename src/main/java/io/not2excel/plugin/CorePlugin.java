@@ -8,8 +8,7 @@
  */
 package io.not2excel.plugin;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class CorePlugin extends JavaPlugin {
+public class CorePlugin {
     //TODO: implement a base plugin functionality to keep consistency across the board
+    //This is used for the Core
 }
