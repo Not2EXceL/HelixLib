@@ -8,12 +8,13 @@
  */
 package io.not2excel.metadata;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Interface for metadata key + value mapping with ownership
  *
- * @param <O>
+ * @param <P>
  *         Owner type binding
  * @param <T>
  *         Value type binding
@@ -22,7 +23,7 @@ import java.util.Map;
  * @version 0.1.0
  * @since 0.1.0
  */
-public interface Metadata<O, T> {
+public interface Metadata<P, T> {
 
     /**
      * Returns the current owner of the metadata object
@@ -31,41 +32,8 @@ public interface Metadata<O, T> {
      *
      * @since 0.1.0
      */
-    O getOwner();
+    P getOwner();
 
-    /**
-     * Sets the owner of this metadata object
-     *
-     * @param owner
-     *         owner
-     *
-     * @since 0.1.0
-     */
-    void setOwner(final O owner);
-
-    /**
-     * Return the value if the key is valid
-     *
-     * @param key
-     *         key
-     *
-     * @return value
-     *
-     * @since 0.1.0
-     */
-    T getValue(String key);
-
-    /**
-     * Insert a key + value pair to this metadata object
-     *
-     * @param key
-     *         key
-     * @param value
-     *         value
-     *
-     * @since 0.1.0
-     */
-    void insertKeyValue(String key, T value);
 
     /**
      * Returns the inner pair mapping
@@ -74,7 +42,7 @@ public interface Metadata<O, T> {
      *
      * @since 0.1.0
      */
-    Map<String, T> getPairMap();
+    Map<String, T> getMetadataMap();
 
     /**
      * Validates that this metadata object contains the given key
@@ -86,8 +54,12 @@ public interface Metadata<O, T> {
      *
      * @since 0.1.0
      */
-    default boolean validateKey(final String key) {
-        return this.getPairMap().containsKey(key);
+    default boolean has(final String key) {
+        return this.getMetadataMap().containsKey(key);
+    }
+
+    default boolean hasList(String key) {
+        return has(key) && this.getMetadataMap().get(key) instanceof List<?>;
     }
 
     /**
@@ -99,8 +71,8 @@ public interface Metadata<O, T> {
      * @since 0.1.0
      */
     default void invalidate(final String key) {
-        if(this.validateKey(key)) {
-            this.getPairMap().remove(key);
+        if(this.has(key)) {
+            this.getMetadataMap().remove(key);
         }
     }
 }
