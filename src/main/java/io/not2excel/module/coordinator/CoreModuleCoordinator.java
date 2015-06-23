@@ -22,25 +22,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CoreModuleCoordinator<T> extends SimpleModuleCoordinator<CoreModule> {
+public class CoreModuleCoordinator<O> extends SimpleModuleCoordinator<CoreModule> {
 
     @Getter
     private final List<String> excludes;
     @Getter
-    private final T t;
+    private final O            owner;
 
-    public CoreModuleCoordinator(T t, List<String> excludes) {
+    public CoreModuleCoordinator(O owner, List<String> excludes) {
         super(CoreModule.class);
-        this.t = t;
+        this.owner = owner;
         this.excludes = excludes;
     }
 
-    public CoreModuleCoordinator(T t) {
-        this(t, Collections.emptyList());
+    public CoreModuleCoordinator(O owner) {
+        this(owner, Collections.emptyList());
     }
 
-    public CoreModuleCoordinator(T t, String... excludes) {
-        this(t, Arrays.asList(excludes));
+    public CoreModuleCoordinator(O owner, String... excludes) {
+        this(owner, Arrays.asList(excludes));
     }
 
     @Override
@@ -51,9 +51,9 @@ public class CoreModuleCoordinator<T> extends SimpleModuleCoordinator<CoreModule
         }
         try {
             ModuleInfo moduleInfo = super.getModuleInfo(moduleClass);
-            Constructor<CoreModule> constructor = moduleClass.getDeclaredConstructor(ModuleInfo.class, t.getClass());
+            Constructor<CoreModule> constructor = moduleClass.getDeclaredConstructor(ModuleInfo.class, owner.getClass());
             constructor.setAccessible(true);
-            return constructor.newInstance(moduleInfo, t);
+            return constructor.newInstance(moduleInfo, owner);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class CoreModuleCoordinator<T> extends SimpleModuleCoordinator<CoreModule
 
     @Override
     public void load(CoreModule module) throws ModuleLoadException {
-        if(!t.equals(module.getOwner())) {
+        if(!owner.equals(module.getOwner())) {
             throw new IllegalArgumentException(module.getInfo().id() + " is not of same generic typing.");
         }
         ModuleInfo info = module.getInfo();

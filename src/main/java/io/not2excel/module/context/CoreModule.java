@@ -10,19 +10,18 @@ package io.not2excel.module.context;
 
 import io.not2excel.annotation.NonThreadSafe;
 import io.not2excel.annotation.ThreadSafe;
-import io.not2excel.metadata.CoreMetadata;
+import io.not2excel.metadata.Metadata;
 import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
 import lombok.Getter;
 
+@Getter
 @AbstractModule
 @ModuleInfo(id = "core", name = "Core Module")
 public class CoreModule<P> implements Module {
 
-    @Getter
-    private final P owner;
-    private CoreMetadata<P, Object> metadata;
-    @Getter
+    private final P                   owner;
+    private       Metadata<CoreModule<P>> metadata;
     private ModuleInfo info = null;
 
     public CoreModule(ModuleInfo info, P owner) {
@@ -77,11 +76,11 @@ public class CoreModule<P> implements Module {
      * @since 0.1.0
      */
     @ThreadSafe
-    public CoreMetadata getMetadata() {
+    public Metadata<CoreModule<P>> getMetadata() {
         if (metadata == null) {
             synchronized (this) {
                 if (metadata == null) {
-                    metadata = new CoreMetadata<>();
+                    metadata = new Metadata<>(this);
                 }
             }
         }
