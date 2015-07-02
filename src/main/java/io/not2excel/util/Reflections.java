@@ -9,6 +9,7 @@
 package io.not2excel.util;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 
 public final class Reflections {
 
@@ -37,5 +38,25 @@ public final class Reflections {
      */
     public static boolean hasAnnotation(Class<?> clazz, Class<? extends Annotation> annotation) {
         return clazz.isAnnotationPresent(annotation);
+    }
+
+    /**
+     * Simply initializes a class via the location constructor with the provided args and argClasses
+     * @param clazz Class to initialize
+     * @param args args for constructor
+     * @return initialized objects
+     * @throws Exception
+     */
+    public static Object initConstructor(Class<?> clazz, Object[] args) throws Exception {
+        Constructor<?> constructor;
+        Class<?>[] argClasses = new Class[0];
+        if (args != null && args.length > 0) {
+            argClasses = new Class[args.length];
+            for (int i = 0; i < args.length; i++) {
+                argClasses[i] = args[i].getClass();
+            }
+        }
+        constructor = clazz.getConstructor(argClasses);
+        return constructor.newInstance(args);
     }
 }

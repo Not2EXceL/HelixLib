@@ -10,7 +10,5 @@ package io.not2excel.spigot.menu;
 
 public class MenuPanel {
 
-    public static class MenuIcon {
 
-    }
 }
