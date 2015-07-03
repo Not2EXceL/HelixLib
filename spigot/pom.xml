@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>helixlib</artifactId>
+        <groupId>io.not2excel.helixlib</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>spigot</artifactId>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${pom.basedir}</directory>
+                <includes>
+                    <include>LICENSE.md</include>
+                    <include>README.md</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.not2excel.helixlib</groupId>
+            <artifactId>core</artifactId>
+            <version>${parent.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>
