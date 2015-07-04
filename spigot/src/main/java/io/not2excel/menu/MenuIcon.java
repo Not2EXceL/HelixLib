@@ -27,6 +27,6 @@ public final class MenuIcon {
     private       BiConsumer<Player, ClickType> iconListener;
 
     public static MenuIcon create(ItemStack itemStack) {
-        return new MenuIcon(itemStack, EMPTY_LISTENER);
+        return MenuIcon.create(itemStack, EMPTY_LISTENER);
     }
 }
