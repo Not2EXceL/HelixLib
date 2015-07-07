@@ -11,7 +11,10 @@ package io.not2excel.module.context;
 public interface Module {
 
     void onLoad();
+
     void onUnload();
+
     void onEnable();
+
     void onDisable();
 }

@@ -1,0 +1,6 @@
+rootProject.name = 'helixlib'
+include ':core'
+include ':spigot'
+
+project(':core').projectDir = "$rootDir/core" as File
+project(':spigot').projectDir = "$rootDir/spigot" as File

@@ -87,7 +87,7 @@ public final class ClassEnumerator {
     public static List<Class<?>> filterByAnnotation(LoadedClasses input,
                                                     Class<? extends Annotation> annotation) {
         return input.getClassMap().values().stream()
-                .filter(c -> c.isAnnotationPresent(annotation)).collect(Collectors.toList());
+                    .filter(c -> c.isAnnotationPresent(annotation)).collect(Collectors.toList());
     }
 
     /**
@@ -129,7 +129,7 @@ public final class ClassEnumerator {
     public static List<Class<?>> filterByAssignableFrom(LoadedClasses input,
                                                         Class<?> assignableFrom) {
         return input.getClassMap().values().stream()
-                .filter(assignableFrom::isAssignableFrom).collect(Collectors.toList());
+                    .filter(assignableFrom::isAssignableFrom).collect(Collectors.toList());
     }
 
     /**
@@ -160,7 +160,7 @@ public final class ClassEnumerator {
         ClassLoader classLoader;
         try {
             classLoader = new URLClassLoader(new URL[]{directory.toURI().toURL()},
-                    ClassEnumerator.class.getClassLoader());
+                                             ClassEnumerator.class.getClassLoader());
         } catch (MalformedURLException e) {
             logger.log(Level.WARNING, "Failed to create ClassLoader", e);
             return null;
@@ -193,11 +193,11 @@ public final class ClassEnumerator {
 
     /**
      * Retrieves all classes from a specified package
-     * <p/>
+     * <p>
      * NOTE: Internal usage only, ClassEnumerator must exist in
      * the same {@link java.security.ProtectionDomain#getCodeSource},
      * else this will fail and return a loadedClasses object that is empty
-     * <p/>
+     * <p>
      * Calls {@link io.not2excel.util.ClassEnumerator#loadClassesFromPackage(String, String)}
      *
      * @param packageName internal package name
@@ -251,7 +251,7 @@ public final class ClassEnumerator {
         ClassLoader classLoader;
         try {
             classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()},
-                    ClassEnumerator.class.getClassLoader());
+                                             ClassEnumerator.class.getClassLoader());
         } catch (MalformedURLException e) {
             logger.log(Level.WARNING, "Failed to create ClassLoader", e);
             return null;
@@ -363,7 +363,7 @@ public final class ClassEnumerator {
         ClassLoader classLoader;
         try {
             classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()},
-                    ClassEnumerator.class.getClassLoader());
+                                             ClassEnumerator.class.getClassLoader());
         } catch (MalformedURLException e) {
             logger.log(Level.WARNING, "Failed to create ClassLoader", e);
             return null;
@@ -435,7 +435,7 @@ public final class ClassEnumerator {
             File subDir = new File(directory, fileName);
             if (subDir.isDirectory()) {
                 classMap.putAll(processFileTree(subDir, classLoader,
-                        String.format("%s.%s", prepend, fileName), jarOnly));
+                                                String.format("%s.%s", prepend, fileName), jarOnly));
             } else if (subDir.getName().toLowerCase().trim().endsWith(".jar")) {
                 LoadedClasses jarClasses = loadClassesFromJarUnformatted(subDir);
                 Map<String, LoadedClasses> formatted = formatClasses(jarClasses, classMap);
@@ -459,7 +459,7 @@ public final class ClassEnumerator {
      * If the passed className ends with ".class", it'll be removed
      * If the passed className starts with ".", it'll be sub-stringed out
      * Wraps the exception within this method
-     * <p/>
+     * <p>
      * NOTE: This does not initialize static blocks
      * If you want to initialize the class, use {@link Class#forName(String)} on the loadedClasses
      *

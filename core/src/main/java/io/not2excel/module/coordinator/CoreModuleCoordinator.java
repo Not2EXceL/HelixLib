@@ -62,14 +62,14 @@ public class CoreModuleCoordinator<O> extends SimpleModuleCoordinator<CoreModule
 
     @Override
     public void load(CoreModule module) throws ModuleLoadException {
-        if(!owner.equals(module.getOwner())) {
+        if (!owner.equals(module.getOwner())) {
             throw new IllegalArgumentException(module.getInfo().id() + " is not of same generic typing.");
         }
         ModuleInfo info = module.getInfo();
-        if(info == null) {
+        if (info == null) {
             info = super.getModuleInfo(module.getClass());
         }
-        if(!excludes.contains(info.id())) {
+        if (!excludes.contains(info.id())) {
             super.load(module);
         } else {
             super.logger.info(excludeMessage(info));
@@ -79,14 +79,14 @@ public class CoreModuleCoordinator<O> extends SimpleModuleCoordinator<CoreModule
     @Override
     public void load(Class<CoreModule> moduleClass) {
         ModuleInfo info = super.getModuleInfo(moduleClass);
-        if(!excludes.contains(info.id())) {
+        if (!excludes.contains(info.id())) {
             super.load(moduleClass);
         } else {
             super.logger.info(excludeMessage(info));
         }
     }
 
-    private String excludeMessage(ModuleInfo info ) {
+    private String excludeMessage(ModuleInfo info) {
         return info.id() + " => Found in excludes. Skipping loading.";
     }
 }

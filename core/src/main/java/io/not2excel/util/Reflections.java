@@ -42,8 +42,9 @@ public final class Reflections {
 
     /**
      * Simply initializes a class via the location constructor with the provided args and argClasses
+     *
      * @param clazz Class to initialize
-     * @param args args for constructor
+     * @param args  args for constructor
      * @return initialized objects
      * @throws Exception
      */

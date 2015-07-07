@@ -18,7 +18,10 @@ import java.lang.annotation.Target;
 public @interface ModuleInfo {
 
     String id(); //id's are non case sensitive
+
     String name();
+
     String description() default "";
+
     String[] loadAfter() default {}; //equivalent of hard dependencies, circular dependencies will cause issues
 }

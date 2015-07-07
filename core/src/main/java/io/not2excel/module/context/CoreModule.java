@@ -20,7 +20,7 @@ import lombok.Getter;
 @ModuleInfo(id = "core", name = "Core Module")
 public class CoreModule<P> implements Module {
 
-    private final P                   owner;
+    private final P                       owner;
     private       Metadata<CoreModule<P>> metadata;
     private ModuleInfo info = null;
 

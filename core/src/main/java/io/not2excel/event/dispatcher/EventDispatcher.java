@@ -33,10 +33,10 @@ public class EventDispatcher<E extends EventContext> {
         final int priority = ((EventSubscriberPriority) subscriber).getPriority();
         synchronized (this.subscriberList) {
             if (priority >= 0) {
-                for(int i = 0; i < this.subscriberList.size(); i++) {
+                for (int i = 0; i < this.subscriberList.size(); i++) {
                     EventSubscriber<E> s = this.subscriberList.get(i);
                     int sPriority = ((EventSubscriberPriority) s).getPriority();
-                    if(sPriority < 0 || priority < sPriority) {
+                    if (sPriority < 0 || priority < sPriority) {
                         this.subscriberList.add(i, s);
                         return;
                     }
@@ -50,9 +50,9 @@ public class EventDispatcher<E extends EventContext> {
     public void unregisterSubscriber(EventSubscriber<? extends EventContext> subscriber) {
         synchronized (this.subscriberList) {
             Iterator<EventSubscriber<E>> iterator = this.subscriberList.iterator();
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 EventSubscriber<E> s = iterator.next();
-                if(s.equals(subscriber)) {
+                if (s.equals(subscriber)) {
                     iterator.remove();
                 }
             }

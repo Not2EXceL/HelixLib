@@ -8,7 +8,6 @@
  */
 package io.not2excel.plugin;
 
-import io.not2excel.plugin.CorePlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CoreSpigotPlugin extends JavaPlugin implements CorePlugin {

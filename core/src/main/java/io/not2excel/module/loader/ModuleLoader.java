@@ -8,10 +8,10 @@
  */
 package io.not2excel.module.loader;
 
-import io.not2excel.module.coordinator.ModuleCoordinator;
 import io.not2excel.module.annotation.AbstractModule;
 import io.not2excel.module.annotation.ModuleInfo;
 import io.not2excel.module.context.Module;
+import io.not2excel.module.coordinator.ModuleCoordinator;
 import io.not2excel.module.exception.ModuleLoadException;
 import io.not2excel.util.ClassEnumerator;
 import io.not2excel.util.ClassEnumerator.LoadedClasses;
@@ -21,10 +21,10 @@ import java.io.File;
 import java.util.*;
 
 public interface ModuleLoader<M extends Module> {
-    
+
     default void loadModules(List<Class<M>> moduleList) {
         moduleList.forEach(c -> {
-            if(Reflections.hasAnnotation(c, AbstractModule.class)) {
+            if (Reflections.hasAnnotation(c, AbstractModule.class)) {
                 return;
             }
             ModuleCoordinator<M> moduleCoordinator = this.getRelativeCoordinator();
@@ -41,7 +41,7 @@ public interface ModuleLoader<M extends Module> {
         Map<Class<M>, String[]> mappedDependents = new HashMap<>();
         moduleList.parallelStream().forEach(c -> {
             ModuleInfo info = Reflections.getAnnotation(c, ModuleInfo.class);
-            if(info.loadAfter().length == 0) {
+            if (info.loadAfter().length == 0) {
                 sorted.add(c);
             } else {
                 mappedDependents.put(c, info.loadAfter());
@@ -51,13 +51,13 @@ public interface ModuleLoader<M extends Module> {
             List<String> ids = Arrays.asList(s);
             int i = 0;
             int insert = i;
-            for(Class<M> testClazz : sorted) {
+            for (Class<M> testClazz : sorted) {
                 ModuleInfo info = Reflections.getAnnotation(testClazz, ModuleInfo.class);
-                if(ids.contains(info.id())) {
+                if (ids.contains(info.id())) {
                     ids.remove(info.id());
                     insert = i;
                 }
-                if(ids.isEmpty()) {
+                if (ids.isEmpty()) {
                     break;
                 }
                 i++;
@@ -80,7 +80,7 @@ public interface ModuleLoader<M extends Module> {
 
     default Map<String, LoadedClasses> getInternalModules() {
         return ClassEnumerator.isJar() ? ClassEnumerator.loadClassesFromJar() :
-                ClassEnumerator.loadClassesFromPackage("");
+               ClassEnumerator.loadClassesFromPackage("");
     }
 
     ModuleCoordinator<M> getRelativeCoordinator();

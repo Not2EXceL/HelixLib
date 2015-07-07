@@ -57,7 +57,7 @@ public final class CoreEventCoordinator implements EventCoordinator {
             }
         });
         deltaSubscribers.forEach((eventContext, subscriberList) ->
-                subscriberList.forEach(subscriber -> this.subscribeSingle(eventContext, subscriber)));
+                                         subscriberList.forEach(subscriber -> this.subscribeSingle(eventContext, subscriber)));
     }
 
     @Override
@@ -95,13 +95,13 @@ public final class CoreEventCoordinator implements EventCoordinator {
             }
         });
         deltaSubscribers.forEach((eventContext, subscriberList) ->
-                subscriberList.forEach(subscriber -> this.unsubscribeSingle(eventContext, subscriber)));
+                                         subscriberList.forEach(subscriber -> this.unsubscribeSingle(eventContext, subscriber)));
     }
 
     @Override
     public void unsubscribeSingle(Class<? extends EventContext> eventContext, EventSubscriber<? extends EventContext> subscriber) {
         synchronized (this.registeredSubscribers) {
-            if(this.registeredSubscribers.containsKey(eventContext)) {
+            if (this.registeredSubscribers.containsKey(eventContext)) {
                 this.registeredSubscribers.get(eventContext).unregisterSubscriber(subscriber);
             }
         }
@@ -134,8 +134,8 @@ public final class CoreEventCoordinator implements EventCoordinator {
 
     private boolean checkMethod(Method method, Class<? extends EventContext> eventContext) {
         return method.isAnnotationPresent(EventSubscribe.class) &&
-                method.getParameterCount() == 1 &&
-                eventContext.isAssignableFrom(method.getParameterTypes()[0]);
+               method.getParameterCount() == 1 &&
+               eventContext.isAssignableFrom(method.getParameterTypes()[0]);
     }
 
     @SuppressWarnings("unchecked")

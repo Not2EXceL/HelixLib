@@ -27,7 +27,7 @@ import java.util.Map;
 public class SimpleModuleCoordinator<M extends Module> implements ModuleCoordinator<M> {
 
     protected final Logger logger = LogManager.getLogger(SimpleModuleCoordinator.class.getSimpleName());
-    protected Class<M> baseModuleClass;
+    protected Class<M>       baseModuleClass;
     protected Map<String, M> moduleMap;
 
     public SimpleModuleCoordinator(Class<M> baseModuleClass) {
