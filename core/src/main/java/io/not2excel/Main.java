@@ -21,5 +21,7 @@ public class Main {
             System.out.println(l.toString());
             System.out.println("<====================>");
         });
+        String s = "1.23 Hours asdf";
+        System.out.println(s.substring(s.indexOf(" Hours") + " Hours".length()).trim());
     }
 }
