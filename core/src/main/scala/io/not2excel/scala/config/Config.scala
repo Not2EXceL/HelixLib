@@ -19,11 +19,11 @@ final class ConfigKey private(private val qualifier: String) {
 
     def unapply(key: ConfigKey): Tuple1[String] = Tuple1.apply(key.qualifier)
 
-    def as[T: ClassTag, D <: DataType](tClass: Class[T], dataHolder: DataHolder[D]) = {
+    def as[T: ClassTag, D <: DataType](tClass: Class[T], dataHolder: DataHolder[D]): Option[T] = {
         val value = dataHolder.get(qualifier)
         value match {
             case _: T => Option.apply(tClass.cast(value))
-            case _ => value
+            case _ => Option.empty
         }
     }
 }
