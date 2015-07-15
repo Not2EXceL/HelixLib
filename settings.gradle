@@ -1,6 +1,9 @@
 rootProject.name = 'helixlib'
 include ':core'
 include ':spigot'
+include ':scala-loader'
 
 project(':core').projectDir = "$rootDir/core" as File
 project(':spigot').projectDir = "$rootDir/spigot" as File
+project(':scala-loader').projectDir = "$rootDir/scala-loader" as File
+

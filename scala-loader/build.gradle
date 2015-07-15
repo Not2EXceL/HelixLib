@@ -1,0 +1,11 @@
+description = ''
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "plugin.name": 'Scala-Loader',
+            "plugin.version": project.version,
+            "plugin.author": author
+    ]
+}
