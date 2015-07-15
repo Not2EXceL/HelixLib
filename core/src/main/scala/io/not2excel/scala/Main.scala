@@ -1,5 +1,6 @@
 package io.not2excel.scala
 
+
 import scala.reflect.ClassTag
 
 /*
@@ -13,15 +14,21 @@ import scala.reflect.ClassTag
 object Main {
 
     def main(args: Array[String]) = {
-        val test: Tuple1[Any] = Tuple1[Any](14)
-        val ret = mutate(classOf[Integer], test._1)
+        val test = new Test1
+        val ret = mutate[Test1](test)
+        println(test)
         println(ret)
     }
 
-    def mutate[T: ClassTag](tClass: Class[T], m: Any): Any = {
+    def mutate[T: ClassTag](m: Any): Any = {
         m match {
-            case _: T => tClass.cast(m)
-            case _ => m
+            case _: T => m.asInstanceOf[T]
+            case _ => null
         }
     }
+
+    trait _Test
+    trait _Test_
+    class Test extends _Test
+    class Test1 extends Test with _Test_
 }
