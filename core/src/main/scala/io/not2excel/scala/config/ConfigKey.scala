@@ -27,7 +27,3 @@ final class ConfigKey private(private val qualifier: String) {
         }
     }
 }
-
-class Config {
-
-}

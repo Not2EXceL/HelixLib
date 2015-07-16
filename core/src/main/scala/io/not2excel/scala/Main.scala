@@ -1,10 +1,10 @@
 package io.not2excel.scala
 
 
-import io.not2excel.scala.util.Primitive
+import io.not2excel.scala.util.ScalaPrimitives
 
 import scala.reflect.ClassTag
-import scala.runtime.RichDouble
+import scala.runtime.{RichInt, RichShort, RichFloat, RichDouble}
 
 /*
  * Copyright (C) 2011-Current Richmond Steele (Not2EXceL) (nasm) <not2excel@gmail.com>
@@ -18,28 +18,14 @@ object Main {
 
     def main(args: Array[String]) = {
         val test = new Test1
-//        val ret = mutate[Test1](test)
-//        println(test)
-//        println(ret)
-        println("Primitive to Rich")
-        println("=================")
-        Primitive.primitiveToRich foreach {
-            case(k, v) => println(k + " -> " + v)
-        }
-        println("=================")
-        println("Rich to Primitive")
-        println("=================")
-        Primitive.richToPrimitive foreach {
-            case(k, v) => println(k + " -> " + v)
-        }
-        println("=================")
-        println()
-//        println(Primitive.isPrimitive(classOf[Test]))
-//        println(Primitive.isPrimitive(classOf[Boolean]))
-//        println(Primitive.isPrimitive(classOf[Test1]))
-//        println(Primitive.isPrimitive(classOf[Float]))
-        println(Primitive.isWrapper(test))
-        println(Primitive.isWrapper(new RichDouble(4.5)))
+        val ret = mutate[Test1](test)
+        println(test)
+        println(ret)
+        println(ScalaPrimitives.unwrap(classOf[RichShort]))
+        println(ScalaPrimitives.wrap(classOf[Boolean]))
+        println(ScalaPrimitives.unwrap(classOf[RichInt]))
+        println(ScalaPrimitives.wrap(classOf[Test]))
+        println(ScalaPrimitives.wrap(null))
     }
 
     def mutate[T: ClassTag](m: Any): Any = {
