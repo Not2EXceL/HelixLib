@@ -4,8 +4,9 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
     filter ReplaceTokens, tokens: [
-            "plugin.name": 'Scala-Loader',
-            "plugin.version": project.version,
-            "plugin.author": author
+            "plugin.name"     : 'Scala-Loader',
+            "plugin.version"  : project.version,
+            "plugin.mainClass": 'io.not2excel.scala.ScalaLoader',
+            "plugin.author"   : author
     ]
 }

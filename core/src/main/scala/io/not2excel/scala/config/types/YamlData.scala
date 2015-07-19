@@ -17,8 +17,13 @@ class YamlData(private val file: File) extends DataType {
 
     private var config: Option[FileConfiguration] = Option.empty
     override type T = FileConfiguration
+    init()
 
-    @throws(classOf[IOException])
+    def this(fileName: String) {
+        this(new File(fileName + ".yml"))
+    }
+
+    @throws[IOException]
     override def init() = {
         if (!file.exists) {
             file.createNewFile
@@ -33,6 +38,6 @@ class YamlData(private val file: File) extends DataType {
 
     }
 
-    @throws(classOf[IOException])
+    @throws[IOException]
     override def save() = if (config.isDefined) config.get.save(file)
 }

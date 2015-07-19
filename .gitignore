@@ -1,9 +1,11 @@
 **/.idea/*
 **/target/*
 **/.gradle/*
+**/gradle_build/*
 **/build/*
 **/out/*
 /src/*
+/test/*
 *.iml
 *.ipr
 *.iws

@@ -18,6 +18,11 @@ subprojects {
     targetCompatibility = 1.8
     author = 'not2excel'
 
+    configurations {
+        provided
+        compile.extendsFrom provided
+    }
+
     repositories {
         mavenCentral()
         mavenLocal()
@@ -30,15 +35,41 @@ subprojects {
         }
     }
 
-
     dependencies {
         compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.6'
         compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.11.6'
+        compile group: 'org.json', name: 'json', version: '20141113'
+        compile group: 'org.clapper', name: 'grizzled-slf4j_2.11', version: '1.0.2'
 
-        compile group: 'org.projectlombok', name: 'lombok', version: '1.14.8'
-        compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.2'
-        compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2'
-        compile group: 'org.spigotmc', name: 'spigot-api', version: '1.8.7-R0.1-SNAPSHOT'
-        compile group: 'org.spigotmc', name: 'spigot', version: '1.8.7-R0.1-SNAPSHOT'
+        provided group: 'org.projectlombok', name: 'lombok', version: '1.14.8'
+        provided group: 'org.spigotmc', name: 'spigot-api', version: '1.8.7-R0.1-SNAPSHOT'
+        provided group: 'org.spigotmc', name: 'spigot', version: '1.8.7-R0.1-SNAPSHOT'
+    }
+
+    processResources {
+        filter { line -> line.replace('${', '@').replace('}', '@') }
+    }
+
+    task fatJar(type: Jar) {
+        baseName = project.name + '-fatjar'
+        from {
+            (configurations.runtime - configurations.provided).collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        } {
+            //exclude "something to exclude"
+        }
+        with jar
+    }
+}
+task migrateBuiltModule(type: Copy) {
+    destinationDir = file("./out")
+
+    into("./out") {
+        project.subprojects.each { p ->
+            from(p.tasks.withType(Jar).findAll {
+                e -> !e.getName().equals('fatJar') || p.getName().equals('scala-loader')
+            }.collect())
+        }
     }
 }
