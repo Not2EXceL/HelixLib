@@ -13,8 +13,8 @@ import org.json.JSONObject
  * helixlib can not be copied and/or distributed without the express
  * permission of the aforementioned owner.
  */
-class JsonFile(file: File, var jsonObject: JSONObject = new JSONObject(),
-               var compressed: Boolean = false) {
+class JsonBuffer(file: File, var jsonObject: JSONObject = new JSONObject(),
+                 var compressed: Boolean = false) {
 
     load()
 

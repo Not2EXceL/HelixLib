@@ -1,7 +1,7 @@
 package io.not2excel.scala.config.file
 
 import java.io._
-import java.util.zip.{GZIPOutputStream, GZIPInputStream}
+import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
 /*
  * Copyright (C) 2011-Current Richmond Steele (Not2EXceL) (nasm) <not2excel@gmail.com>
@@ -20,63 +20,51 @@ import java.util.zip.{GZIPOutputStream, GZIPInputStream}
  * @param file text file
  * @param compressed compress the output with gzip or not
  */
-class TextFile(file: Option[File], var append: Boolean = false, var compressed: Boolean = false) {
+class TextBuffer(file: Option[File], var append: Boolean = false, var compressed: Boolean = false) {
 
     init()
     private var _lines: List[String] = List.empty
     private val _input: Option[InputStream] = {
-        if(file.isDefined && file.get.exists()) {
+        if (file.isDefined && file.get.exists()) {
             var temp: InputStream = new FileInputStream(file.get)
-            if(compressed) temp = new GZIPInputStream(temp)
+            if (compressed) temp = new GZIPInputStream(temp)
             Option.apply(temp)
-        } else {
-            Option.empty
-        }
+        } else Option.empty
     }
     private val _output: Option[OutputStream] = {
-        if(file.isDefined && file.get.exists()) {
+        if (file.isDefined && file.get.exists()) {
             var temp: OutputStream = new FileOutputStream(file.get)
-            if(compressed) temp = new GZIPOutputStream(temp)
+            if (compressed) temp = new GZIPOutputStream(temp)
             Option.apply(temp)
-        } else {
-            Option.empty
-        }
+        } else Option.empty
     }
     load()
 
     def lines = _lines
 
+    def reverse = _lines.reverse
+
+    def flip() = _lines = _lines.reverse
+
     def init() = if (file.isDefined && !file.get.exists()) file.get.createNewFile()
 
     def addLine(line: String) = {
         _lines = line :: _lines
-        _lines
     }
 
     def addLines(lines: String*) = {
         _lines = lines.toList.reverse ::: _lines
-        _lines
     }
 
-    def flip = {
-        _lines.reverse
-    }
 
     @throws[IOException]
     def close(): Unit = {
-        close(_input.get)
-        close(_output.get)
+        close(_input)
+        close(_output)
     }
 
     @throws[IOException]
-    private def close(input: InputStream) = {
-
-    }
-
-    @throws[IOException]
-    private def close(output: OutputStream) = {
-
-    }
+    private def close[T <: Closeable](closeable: Option[T]) = if (closeable.isDefined) closeable.get.close()
 
     def load() = {
 
@@ -86,9 +74,5 @@ class TextFile(file: Option[File], var append: Boolean = false, var compressed: 
 
     }
 
-    override def toString: String = {
-        var s: String = ""
-        _lines.foreach(l => s += (l + "\n"))
-        s
-    }
+    override def toString = _lines.reduce(_ + "\n" + _)
 }

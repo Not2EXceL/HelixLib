@@ -6,7 +6,6 @@
 **/out/*
 /src/*
 /test/*
-**/gradle_build/*
 *.iml
 *.ipr
 *.iws

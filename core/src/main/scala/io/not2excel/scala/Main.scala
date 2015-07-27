@@ -3,7 +3,7 @@ package io.not2excel.scala
 
 import java.io.File
 
-import io.not2excel.scala.config.file.TextFile
+import io.not2excel.scala.config.file.TextBuffer
 import io.not2excel.scala.config.types.YamlData
 import io.not2excel.scala.util.ScalaPrimitives
 
@@ -38,14 +38,15 @@ object Main {
         val yaml = new YamlData(file)
         println(yaml.get.isDefined)
 
-        val t: TextFile = new TextFile(Option.empty)
+        val t: TextBuffer = new TextBuffer(Option.empty)
         println(t.lines)
         t.addLines("line 1", "line 2")
         t.addLine("line 3")
         t.addLines("line 4", "line 5")
         t.addLine("line 6")
         println(t.lines)
-        t.flip
+        println(t)
+        t.flip()
         println(t.lines)
         println(t)
 
