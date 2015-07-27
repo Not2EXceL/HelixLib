@@ -39,16 +39,17 @@ object Main {
         println(yaml.get.isDefined)
 
         val t: TextBuffer = new TextBuffer(Option.empty)
-        println(t.lines)
+//        println(t.lines)
         t.addLines("line 1", "line 2")
         t.addLine("line 3")
         t.addLines("line 4", "line 5")
         t.addLine("line 6")
+//        println(t.lines)
         println(t.lines)
-        println(t)
+        println(t.reverse)
         t.flip()
         println(t.lines)
-        println(t)
+//        println(t)
 
         val s = "asdf;"
         println(s)

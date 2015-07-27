@@ -25,16 +25,16 @@ class TextBuffer(file: Option[File], var append: Boolean = false, var compressed
     init()
     private var _lines: List[String] = List.empty
     private val _input: Option[InputStream] = {
-        if (file.isDefined && file.get.exists()) {
+        if(file.isDefined && file.get.exists()) {
             var temp: InputStream = new FileInputStream(file.get)
-            if (compressed) temp = new GZIPInputStream(temp)
+            if(compressed) temp = new GZIPInputStream(temp)
             Option.apply(temp)
         } else Option.empty
     }
     private val _output: Option[OutputStream] = {
-        if (file.isDefined && file.get.exists()) {
+        if(file.isDefined && file.get.exists()) {
             var temp: OutputStream = new FileOutputStream(file.get)
-            if (compressed) temp = new GZIPOutputStream(temp)
+            if(compressed) temp = new GZIPOutputStream(temp)
             Option.apply(temp)
         } else Option.empty
     }
@@ -46,16 +46,12 @@ class TextBuffer(file: Option[File], var append: Boolean = false, var compressed
 
     def flip() = _lines = _lines.reverse
 
-    def init() = if (file.isDefined && !file.get.exists()) file.get.createNewFile()
+    def init() = if(file.isDefined && !file.get.exists()) file.get.createNewFile()
 
-    def addLine(line: String) = {
-        _lines = line :: _lines
-    }
+    def addLine(line: String) = _lines = line :: _lines
 
-    def addLines(lines: String*) = {
-        _lines = lines.toList.reverse ::: _lines
-    }
 
+    def addLines(lines: String*) = _lines = lines.toList.reverse ::: _lines
 
     @throws[IOException]
     def close(): Unit = {
@@ -64,14 +60,36 @@ class TextBuffer(file: Option[File], var append: Boolean = false, var compressed
     }
 
     @throws[IOException]
-    private def close[T <: Closeable](closeable: Option[T]) = if (closeable.isDefined) closeable.get.close()
+    private def close[T <: Closeable](closeable: Option[T]) = if(closeable.isDefined) closeable.get.close()
 
-    def load() = {
-
+    @throws[IOException]
+    def load(): Unit = {
+        if(file.isEmpty || _input.isEmpty) return
+        if(file.get.isDirectory) {
+            println("Failed to load '" + file.get.getName + "' because it is a directory.")
+            return
+        }
+        if(append && file.get.exists()) {
+            val reader = new BufferedReader(new InputStreamReader(_input.get))
+            for(s <- reader.lines()) addLine(s)
+            reader.close()
+            close(_input)
+        }
     }
 
-    def save() = {
-
+    @throws[IOException]
+    def save(): Unit = {
+        if(file.isEmpty) return
+        file.get.mkdirs()
+        file.get.delete()
+        file.get.createNewFile()
+        val writer = new BufferedWriter(new OutputStreamWriter(_output.get))
+        _lines.foreach(s => {
+            writer.write(s)
+            writer.newLine()
+        })
+        writer.close()
+        close(_output)
     }
 
     override def toString = _lines.reduce(_ + "\n" + _)
