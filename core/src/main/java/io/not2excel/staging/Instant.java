@@ -14,8 +14,6 @@ public abstract class Instant extends BaseActor {
     }
 
     @Override
-    public final void tick(){
-
-    }
+    public final void tick(){}
 
 }

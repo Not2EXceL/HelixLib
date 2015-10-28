@@ -1,8 +1,5 @@
 package io.not2excel.staging;
 
-import com.minecave.guilds.core.GuildCore;
-import com.minecave.guilds.core.exceptions.DurationException;
-
 /**
  * Created by ktar5 on 8/28/2015.
  */
@@ -21,7 +18,7 @@ public abstract class Continuous extends BaseActor {
                 throw new DurationException(duration, effectEveryTicks);
             }
         }catch (DurationException e){
-            GuildCore.getInstance().getLog().error("&c" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -36,4 +33,7 @@ public abstract class Continuous extends BaseActor {
         }
     }
 
+    private class DurationException extends Exception {
+        public DurationException(int duration, int effectEveryTicks) {}
+    }
 }

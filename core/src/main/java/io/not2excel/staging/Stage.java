@@ -1,7 +1,5 @@
 package io.not2excel.staging;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +7,7 @@ import java.util.UUID;
 /**
  * Created by ktar5 on 8/28/2015.
  */
-public class Stage extends BukkitRunnable {
+public class Stage implements Runnable {
 
 
     private volatile List<Actor> objects = new ArrayList<>();
