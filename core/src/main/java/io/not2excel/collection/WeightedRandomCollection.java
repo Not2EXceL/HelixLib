@@ -11,12 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class WeightedRandomCollection<E> {
     private final NavigableMap<Double, E> map = new TreeMap<>();
-    private final ThreadLocalRandom random;
     private double total = 0;
-
-    public WeightedRandomCollection() {
-        this.random = ThreadLocalRandom.current();
-    }
 
     public void add(double weight, E result) {
         if (weight <= 0) return;
@@ -29,7 +24,7 @@ public class WeightedRandomCollection<E> {
     }
 
     public E next() {
-        double value = random.nextDouble() * total;
+        double value = ThreadLocalRandom.current().nextDouble() * total;
         return map.ceilingEntry(value).getValue();
     }
 }
