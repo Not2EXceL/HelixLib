@@ -2,6 +2,8 @@ package io.not2excel.scala.config.file
 
 import java.io._
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
+import scala.collection.JavaConverters._
+
 
 /*
  * Copyright (C) 2011-Current Richmond Steele (Not2EXceL) (nasm) <not2excel@gmail.com>
@@ -71,7 +73,7 @@ class TextBuffer(file: Option[File], var append: Boolean = false, var compressed
         }
         if(append && file.get.exists()) {
             val reader = new BufferedReader(new InputStreamReader(_input.get))
-            for(s <- reader.lines()) addLine(s)
+            for(s <- reader.lines.iterator().asScala) addLine(s)
             reader.close()
             close(_input)
         }

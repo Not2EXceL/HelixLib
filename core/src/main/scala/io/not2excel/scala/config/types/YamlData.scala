@@ -25,9 +25,7 @@ class YamlData(private val file: File) extends DataType {
 
     @throws[IOException]
     override def init() = {
-        if (!file.exists) {
-            file.createNewFile
-        }
+        if (!file.exists) file.createNewFile
         config = Option.apply(YamlConfiguration.loadConfiguration(file))
     }
 
