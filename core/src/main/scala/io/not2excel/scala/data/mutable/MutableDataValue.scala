@@ -1,23 +1,20 @@
 package io.not2excel.scala.data.mutable
 
-import io.not2excel.scala.data.DataValues.DataValue
-import io.not2excel.scala.util.GenericOps
+import io.not2excel.scala.data.DataValueImpl
+import org.clustermc.lib.utils.implicits.GenericImplicits.AsOpt
 
-import scala.reflect.ClassTag
+class MutableDataValue[T](private[this] override var value: Option[T], override val innerClass: Class[T])
+    extends DataValueImpl[T](value, innerClass) {
 
-trait MutableDataValue[T] extends DataValue[T] {
+    def value_=(value: T) = _value = value.asOpt
 
-    def value_=(value: T)(implicit tTag: ClassTag[T]) = _value = GenericOps.optionWrap(value)
-}
-
-class MutableDataValueImpl[T](private[this] override var value: Option[T]) extends MutableDataValue[T] {
-    _value = value
+    def value_=(value: Option[T]) = _value = value
 }
 
 object MutableDataValue {
 
-    def apply[T: ClassTag](value: T) = {
-        new MutableDataValueImpl(GenericOps.optionWrap(value))
+    def apply[T](value: T, c: Class[T]) = {
+        new MutableDataValue(value.asOpt, c)
     }
 }
 

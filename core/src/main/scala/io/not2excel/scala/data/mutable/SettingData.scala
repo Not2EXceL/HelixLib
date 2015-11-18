@@ -1,19 +1,35 @@
 package io.not2excel.scala.data.mutable
 
-import io.not2excel.scala.data.DataValues.DefaultDataValue
-import io.not2excel.scala.util.GenericOps
+import io.not2excel.scala.data.DefaultDataValue
+import org.clustermc.lib.utils.implicits.GenericImplicits
 
-import scala.reflect.ClassTag
+sealed class SettingData[T](private val default: Option[T],
+                            private[this] val _value: Option[T] = None,
+                            private[this] val _innerClass: Class[T])
+    extends MutableDataValue[T](_value, _innerClass) with DefaultDataValue[T] {
 
-sealed class SettingData[T](private val d: Option[T], private val v: Option[T] = None)
-    extends MutableDataValueImpl[T](v) with DefaultDataValue[T] {
-
-    override val _default = d
+    override val _default = default
 }
 
 object SettingData {
+    import GenericImplicits.AsOpt
 
-    def apply[T: ClassTag](default: T, value: T = None) = {
-        new SettingData(GenericOps.optionWrap(default), GenericOps.optionWrap(value))
+    def apply[T](default: T, value: T = None, c: Class[T]) = {
+        new SettingData[T](value.asOpt, value.asOpt, c)
+    }
+}
+
+sealed class BooleanSetting(private val default: Option[Boolean],
+                            private[this] val _value: Option[Boolean] = Option(false))
+    extends SettingData[Boolean](default, _value, classOf[Boolean])
+
+object BooleanSetting {
+
+    def apply(default: Boolean, value: Boolean = false): BooleanSetting = {
+        apply(Option(default), Option(value))
+    }
+
+    def apply(default: Option[Boolean], value: Option[Boolean]) = {
+        new BooleanSetting(default, value)
     }
 }

@@ -44,6 +44,9 @@ subprojects {
         provided group: 'org.projectlombok', name: 'lombok', version: '1.14.8'
         provided group: 'org.spigotmc', name: 'spigot-api', version: '1.8.7-R0.1-SNAPSHOT'
         provided group: 'org.spigotmc', name: 'spigot', version: '1.8.7-R0.1-SNAPSHOT'
+
+        compile group: 'org.mongodb', name: 'mongodb-driver', version: '3.0.4'
+        compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.0.4'
     }
 
     processResources {
